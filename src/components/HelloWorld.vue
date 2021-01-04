@@ -33,13 +33,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, onMounted } from 'vue';
 
 export default defineComponent({
   name: 'HelloWorld',
   props: {
     msg: String,
   },
+  setup(...rest) {
+    onMounted(() => {
+      console.log('mounted hook trriger', rest)
+    })
+  }
 });
 </script>
 
