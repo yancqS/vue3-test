@@ -18,16 +18,22 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from 'vue';
+import { defineComponent, onMounted, watchEffect } from 'vue';
 
 export default defineComponent({
   name: 'HelloWorld',
   props: {
     msg: String,
   },
-  setup(...rest) {
+  setup(props, ctx) {
     onMounted(() => {
-      console.log('mounted hook trriger', rest)
+      console.log('mounted hook trriger');
+      console.log(props.msg);
+      console.log(ctx);
+    })
+
+    watchEffect(() => {
+      console.log(`msg is ${props.msg}`)
     })
   }
 });

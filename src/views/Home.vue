@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <HelloWorld @click="reverse" :msg="msg"/>
     <p @click="handlerClick">
       {{count}}-{{foo.bar}}
     </p>
@@ -25,6 +25,7 @@ export default defineComponent({
   },
   setup() {
     const count = ref(0);
+    const msg = ref('Welcome to Your Vue.js + TypeScript App');
     const foo = reactive({
       bar: 'zero'
     })
@@ -32,10 +33,15 @@ export default defineComponent({
       console.log(count)
       count.value += 3;
     }
+    const reverse = () => {
+      msg.value = msg.value.split('').reverse().join('');
+    }
     return {
       count,
       foo,
-      handlerClick
+      msg,
+      handlerClick,
+      reverse
     }
   }
 });
