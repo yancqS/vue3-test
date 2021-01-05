@@ -11,17 +11,22 @@ export default {
     });
 
     const plusOne = (): void => {
-        count.value++;
-    }
+      count.value++;
+    };
 
-    return () => h('div', {
-        style: {
-            color: 'red',
-            fontSize: '20px',
+    return () =>
+      h(
+        "div",
+        {
+          style: {
+            color: "red",
+            fontSize: "20px",
+          },
+          onClick: plusOne,
+          id: "renderCom",
         },
-        onClick: plusOne,
-        id: 'renderCom'
-    }, [count.value, object.foo])
+        [count.value, object.foo]
+      );
   },
 };
 </script>
