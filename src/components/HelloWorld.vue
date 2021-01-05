@@ -55,7 +55,8 @@ export default defineComponent({
     const count = ref(0);
     const plusCount = computed(() => count.value+1)
     const origin = reactive({
-      countStart: 0
+      countStart: 0,
+      time: 20
     })
     const copy = readonly(origin);
     onMounted(() => {
@@ -64,15 +65,19 @@ export default defineComponent({
       console.log(ctx);
       setInterval(() => {
         // count.value++;
-        origin.countStart++
+        origin.countStart++;
+        if(origin.countStart > 5) stop();
       }, 1000)
     });
 
     watchEffect(() => {
       console.log(`msg is ${props.msg}`);
     });
-    watchEffect(() => {
+    const stop = watchEffect((onInvalidate) => {
       console.log(`copy.countStart: ${copy.countStart}`);
+      onInvalidate(() => {
+        console.log('onInvalidate');
+      })
     })
     return {
       plusCount
