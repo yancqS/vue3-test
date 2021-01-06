@@ -3,7 +3,7 @@
     <img ref="img" alt="Vue logo" src="../assets/logo.png" />
     <HelloWorld @click="reverse" :msg="msg" />
     <p @click="handlerClick">{{ count }}-{{ foo.bar }}-{{ obj.a }}</p>
-    <p>age: {{person.age}}</p>
+    <p @click="addData_info">age: {{ person.age }} {{ data_info }}</p>
     <byeWorld />
     <render />
   </div>
@@ -22,6 +22,18 @@ export default defineComponent({
     byeWorld,
     render,
   },
+  data() {
+    return {
+      data_info: 10,
+    };
+  },
+  methods: {
+    addData_info() {
+      this.data_info++;
+    },
+  },
+  watch: {},
+  computed: {},
   setup() {
     const count = ref(0);
     const age = ref(18);
@@ -31,8 +43,8 @@ export default defineComponent({
       bar: "zero",
     });
 
-    const theme = Symbol.for('theme');
-    provide(theme, 'dark');
+    const theme = Symbol.for("theme");
+    provide(theme, "dark");
 
     //如果传入 ref 的是一个对象，将调用 reactive 方法进行深层响应转换。
     const obj = ref({
@@ -50,7 +62,7 @@ export default defineComponent({
     watch([age, () => foo.bar], ([age, val], [oldAge, oldVal]) => {
       console.log(age, oldAge);
       console.log(val, oldVal);
-    })
+    });
 
     const person = reactive({
       name: "yan",
@@ -60,7 +72,7 @@ export default defineComponent({
       obj.value.a++;
       count.value += 3;
       person.age++;
-      foo.bar += 'o';
+      foo.bar += "o";
       console.log(img.value);
     };
     const reverse = () => {
@@ -74,7 +86,7 @@ export default defineComponent({
       reverse,
       obj,
       person,
-      img
+      img,
     };
   },
 });

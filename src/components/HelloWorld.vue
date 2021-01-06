@@ -1,6 +1,7 @@
 <template>
   <div class="hello">
     <h1>{{ msg }} && {{plusCount}} && {{themeinfo}}</h1>
+    <h1>{{toRef_test}}</h1>
     <p>
       For a guide and recipes on how to configure / customize this project,<br />
       check out the
@@ -49,12 +50,15 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, inject, onBeforeUpdate, onMounted, reactive, readonly, ref, watchEffect } from "vue";
+import { computed, defineComponent, inject, onBeforeUpdate, onMounted, reactive, readonly, Ref, ref, toRef, watchEffect } from "vue";
 
 export default defineComponent({
   name: "HelloWorld",
   props: {
     msg: String,
+  },
+  mounted() {
+    console.log('mounted');
   },
   setup(props, ctx) {
     const count = ref(0);
@@ -66,6 +70,7 @@ export default defineComponent({
     const copy = readonly(origin);
     const list = reactive([1,2,3]);
     const divs = ref([]);
+    const toRef_test = ref<null | string>(null);
     onBeforeUpdate(() => {
       divs.value = [];
     })
@@ -81,6 +86,12 @@ export default defineComponent({
       }, 1000)
     });
 
+    const changePropMsg = (propValue: Ref) => {
+      toRef_test.value = propValue.value + 'dddd';
+    }
+
+    changePropMsg(toRef(props, 'msg'));
+
     const theme = Symbol.for('theme');
 
     const themeinfo = inject(theme, 'light');
@@ -91,23 +102,24 @@ export default defineComponent({
     const stop = watchEffect((onInvalidate) => {
       console.log(`copy.countStart: ${copy.countStart}`);
       onInvalidate(() => {
-        console.log('onInvalidate');
+        // console.log('onInvalidate');
       })
     }, {
       flush: 'post',
       onTrack(e) {
-        console.log(e, 'track')
+        // console.log(e, 'track')
       },
       onTrigger(e) {
-        console.log(e, 'trigger')
-        console.log('==============')
+        // console.log(e, 'trigger')
+        // console.log('==============')
       }
     })
     return {
       plusCount,
       themeinfo,
       list,
-      divs
+      divs,
+      toRef_test
     }
   },
 });
