@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }} && {{plusCount}}</h1>
+    <h1>{{ msg }} && {{plusCount}} && {{themeinfo}}</h1>
     <p>
       For a guide and recipes on how to configure / customize this project,<br />
       check out the
@@ -40,11 +40,16 @@
         >
       </li>
     </ul>
+    <div v-for="(item, index) in list" :key="item"
+      :ref="el => { divs[index] = el }"
+    >
+      {{item+ '-' + index}}
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, reactive, readonly, ref, watchEffect } from "vue";
+import { computed, defineComponent, inject, onBeforeUpdate, onMounted, reactive, readonly, ref, watchEffect } from "vue";
 
 export default defineComponent({
   name: "HelloWorld",
@@ -59,16 +64,26 @@ export default defineComponent({
       time: 20
     })
     const copy = readonly(origin);
+    const list = reactive([1,2,3]);
+    const divs = ref([]);
+    onBeforeUpdate(() => {
+      divs.value = [];
+    })
     onMounted(() => {
       console.log("mounted hook trriger");
       console.log(props.msg);
       console.log(ctx);
+      console.log(divs.value[0]);
       setInterval(() => {
         // count.value++;
         origin.countStart++;
-        if(origin.countStart > 5) stop();
+        if(origin.countStart > 3) stop();
       }, 1000)
     });
+
+    const theme = Symbol.for('theme');
+
+    const themeinfo = inject(theme, 'light');
 
     watchEffect(() => {
       console.log(`msg is ${props.msg}`);
@@ -78,9 +93,21 @@ export default defineComponent({
       onInvalidate(() => {
         console.log('onInvalidate');
       })
+    }, {
+      flush: 'post',
+      onTrack(e) {
+        console.log(e, 'track')
+      },
+      onTrigger(e) {
+        console.log(e, 'trigger')
+        console.log('==============')
+      }
     })
     return {
-      plusCount
+      plusCount,
+      themeinfo,
+      list,
+      divs
     }
   },
 });

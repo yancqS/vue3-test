@@ -6,12 +6,14 @@ interface Object {
 export default {
   setup() {
     const count = ref(0);
+    const root = ref(null);
     const object: Object = reactive({
       foo: "bar",
     });
 
     const plusOne = (): void => {
       count.value++;
+      console.log(root.value);
     };
 
     return () =>
@@ -23,6 +25,7 @@ export default {
             fontSize: "20px",
           },
           onClick: plusOne,
+          ref: root,
           id: "renderCom",
         },
         [count.value, object.foo]
