@@ -4,7 +4,7 @@
     <input v-model="text" />
     <HelloWorld @click="reverse" :msg="msg" />
     <p @click="handlerClick">{{ count }}-{{ foo.bar }}-{{ obj.a }}</p>
-    <p @click="addData_info">age: {{ person.age }} {{ data_info }}</p>
+    <p @click="addData_info">age: {{ person.age }} {{ data_info }} -- {{test.a}}</p>
     <byeWorld />
     <render />
   </div>
@@ -29,11 +29,15 @@ export default defineComponent({
   data() {
     return {
       data_info: 10,
+      test: {
+        a: 2000
+      }
     };
   },
   methods: {
     addData_info() {
       this.data_info++;
+      delete this.test.a;
     },
   },
   watch: {},
