@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <img ref="img" alt="Vue logo" src="../assets/logo.png" />
+    <input v-model="text" />
     <HelloWorld @click="reverse" :msg="msg" />
     <p @click="handlerClick">{{ count }}-{{ foo.bar }}-{{ obj.a }}</p>
     <p @click="addData_info">age: {{ person.age }} {{ data_info }}</p>

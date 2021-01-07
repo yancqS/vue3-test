@@ -1,4 +1,22 @@
-import { provide, reactive, ref, watch } from "vue";
+import { customRef, provide, reactive, ref, watch } from "vue";
+function useDebounceRef(value: string | number, delay: number = 200) {
+  let timeout: number | undefined;
+  return customRef((track, trigger) => {
+    return {
+      get() {
+        track();
+        return value;
+      },
+      set(newValue: string | number) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+          value = newValue;
+          trigger();
+        }, delay)
+      }
+    }
+  })
+}
 export default function setup_common() {
     const count = ref(0);
     const age = ref(18);
@@ -7,6 +25,7 @@ export default function setup_common() {
     const foo = reactive({
       bar: "zero",
     });
+    const text = useDebounceRef('hello yyy', 2000);
 
     const theme = Symbol.for("theme");
     provide(theme, "dark");
@@ -28,6 +47,10 @@ export default function setup_common() {
       console.log(age, oldAge);
       console.log(val, oldVal);
     });
+
+    watch(text, (val) => {
+      console.log(val);
+    })
 
     const person = reactive({
       name: "yan",
@@ -52,5 +75,6 @@ export default function setup_common() {
       obj,
       person,
       img,
+      text
     };
 }
