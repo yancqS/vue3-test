@@ -51,6 +51,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, inject, onBeforeUpdate, onMounted, reactive, readonly, Ref, ref, toRef, watchEffect } from "vue";
+import person from '../common/person'
 
 export default defineComponent({
   name: "HelloWorld",
@@ -79,6 +80,7 @@ export default defineComponent({
       console.log(props.msg);
       console.log(ctx);
       console.log(divs.value[0]);
+      console.log(person.getAge());
       setInterval(() => {
         // count.value++;
         origin.countStart++;
